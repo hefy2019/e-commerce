@@ -11,6 +11,12 @@
         http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/mvc 
         http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+    
+    <description>Spring MVC Configuration</description>
+    
+    <!-- 加载配置属性文件 -->
+	<context:property-placeholder ignore-unresolvable="true" location="classpath:datebasesite.properties"/> 
+	
 	<!-- 使用扫描机制，扫描包 -->
 	<context:component-scan base-package="com.controller" />
 	<mvc:annotation-driven />
@@ -19,15 +25,17 @@
     <mvc:resources location="/images/" mapping="/images/**"></mvc:resources> 
     <!-- 查看图片时，logos文件夹不需要dispatcher servlet --> 
     <mvc:resources location="/logos/" mapping="/logos/**"></mvc:resources>
+	
 	<!-- 配置视图解析器 -->
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
 		id="internalResourceViewResolver">
 		<!-- 前缀 -->
-		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="prefix" value="${web.view.prefix}" />
 		<!-- 后缀 -->
-		<property name="suffix" value=".jsp" />
+		<property name="suffix" value="${web.view.suffix}" />
 	</bean>
+	
 	<!-- 配置MultipartResolver 用于文件上传 使用spring的CommosMultipartResolver -->  
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"  
         p:defaultEncoding="UTF-8"  
