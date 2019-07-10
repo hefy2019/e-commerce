@@ -17,9 +17,14 @@
     <!-- 加载配置属性文件 -->
 	<context:property-placeholder ignore-unresolvable="true" location="classpath:datebasesite.properties"/> 
 	
-	<!-- 使用扫描机制，扫描包 -->
-	<context:component-scan base-package="com.controller" />
+	<!-- 使用Annotation自动注册Bean,只扫描@Controller -->  <!-- use-default-filters 该属性默认值为true  不写的时候 扫描包及其子包-->  
+	<context:component-scan base-package="com.controller" use-default-filters="false" > <!-- base-package 如果多个，用“,”分隔 --> 
+	<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+	
+	<!-- 默认的注解映射的支持，org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -->
 	<mvc:annotation-driven />
+	
     <!-- 静态资源需要单独处理，不需要dispatcher servlet -->  
     <mvc:resources location="/css/" mapping="/css/**"></mvc:resources> 
     <mvc:resources location="/images/" mapping="/images/**"></mvc:resources> 
